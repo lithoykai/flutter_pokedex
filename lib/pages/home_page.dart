@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/models/pokemon.dart';
 import 'package:flutter_pokedex/models/pokemon_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+
+import '../components/pokegrid.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,24 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<Map> _getPokedex() async {
-    http.Response response;
+  // Future<Map> _getPokedex() async {
+  //   http.Response response;
 
-    response = await http.get(Uri.parse(
-        'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
+  //   response = await http.get(Uri.parse(
+  //       'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
 
-    return jsonDecode(response.body);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<PokemonList>(
-      context,
-      listen: false,
-    ).getPokemons();
-    _getPokedex().then((value) {});
-  }
+  //   return jsonDecode(response.body);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,23 +50,33 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: _getPokedex(),
+                future: Provider.of<PokemonList>(
+                  context,
+                  listen: false,
+                ).getPokemons(),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                     case ConnectionState.none:
-                      return Center(
-                        child: Container(
-                            child: CircularProgressIndicator(
+                      return const Center(
+                        child: CircularProgressIndicator(
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Colors.black),
-                        )),
+                        ),
                       );
                     default:
-                      if (snapshot.hasError)
-                        return Container();
-                      else
-                        return _createGifTable(context, snapshot);
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('Ocorreu um erro!'),
+                        );
+                      } else {
+                        return Consumer<PokemonList>(
+                          builder: (ctx, pokemon, child) => PokeGrid(
+                            pokemon: pokemon,
+                          ),
+                        );
+                      }
+                    // return _createGifTable(context, snapshot);
                   }
                 },
               ),
@@ -88,20 +87,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _createGifTable(BuildContext context, AsyncSnapshot snapshot) {
-    return GridView.builder(
-      padding: EdgeInsets.all(10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemCount: snapshot.data["pokemon"].length,
-      itemBuilder: ((context, index) {
-        return GestureDetector(
-          child: Image.network(snapshot.data["pokemon"][index]["img"]),
-        );
-      }),
-    );
-  }
+  // Widget _createGifTable(BuildContext context, AsyncSnapshot snapshot) {
+  //   return GridView.builder(
+  //     padding: EdgeInsets.all(10),
+  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //       crossAxisCount: 2,
+  //       crossAxisSpacing: 10,
+  //       mainAxisSpacing: 10,
+  //     ),
+  //     itemCount: snapshot.data["pokemon"].length,
+  //     itemBuilder: ((context, index) {
+  //       return GestureDetector(
+  //         child: Image.network(snapshot.data["pokemon"][index]["img"]),
+  //       );
+  //     }),
+  //   );
+  // }
 }

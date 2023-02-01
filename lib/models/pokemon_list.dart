@@ -8,6 +8,7 @@ class PokemonList with ChangeNotifier {
   List<Pokemon> get items => [..._items];
 
   Future<void> getPokemons() async {
+    _items.clear();
     final response = await http.get(Uri.parse(
         'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
 
@@ -20,10 +21,9 @@ class PokemonList with ChangeNotifier {
         name: pokemonData['name'],
         img: pokemonData['img'],
         candy: pokemonData['candy'],
-        // weaknesses: pokemonData['weaknesses'],
-        // type: pokemonData['type']),
       ));
     });
+
     notifyListeners();
   }
 
