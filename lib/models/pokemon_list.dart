@@ -1,33 +1,32 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_pokedex/const/constants.dart';
 import 'package:flutter_pokedex/models/pokemon.dart';
 import 'package:http/http.dart' as http;
 
 class PokemonList with ChangeNotifier {
-  List<Pokemon> _items = [];
-  List<Pokemon> get items => [..._items];
+  List<Pokemon> _pokemons = [];
+  List<Pokemon> get pokemons => [..._pokemons];
 
-  Future<void> getPokemons() async {
-    _items.clear();
-    final response = await http.get(Uri.parse(
-        'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
+  Future<void> fetchPokemons() async {
+    final response = await http.get(Uri.parse(Constants.poke_api_url));
 
-    if (response.body == 'null') return;
-    Map<String, dynamic> data = jsonDecode(response.body);
-    List<dynamic> dataPokemon = data["pokemon"];
-    dataPokemon.forEach((pokemonData) {
-      _items.add(Pokemon(
-        id: pokemonData['id'],
-        name: pokemonData['name'],
-        img: pokemonData['img'],
-        candy: pokemonData['candy'],
-      ));
-    });
+    if (response.statusCode == 200) {
+      // Decode the JSON list into a List<Pokemon> object.
+      Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      List<dynamic> pokemonsJson = jsonMap['pokemon'];
+      List<Pokemon> pokemonsList =
+          pokemonsJson.map((p) => Pokemon.fromJson(p)).toList();
+      _pokemons = pokemonsList;
+    } else {
+      throw Exception('Failed to load pokemons');
+    }
 
     notifyListeners();
   }
 
   int get itemsCount {
-    return _items.length;
+    return _pokemons.length;
   }
 }

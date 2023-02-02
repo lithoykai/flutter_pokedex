@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/models/pokemon_list.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../components/pokegrid.dart';
+import '../models/pokemon_list.dart';
+
+class Pokemon {
+  final int id;
+  final String name;
+  final List<String> types;
+
+  Pokemon({required this.id, required this.name, required this.types});
+
+  factory Pokemon.fromJson(Map<String, dynamic> json) {
+    return Pokemon(
+      id: json['id'],
+      name: json['name'],
+      types: List<String>.from(json['type']),
+    );
+  }
+}
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  // Future<Map> _getPokedex() async {
-  //   http.Response response;
-
-  //   response = await http.get(Uri.parse(
-  //       'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'));
-
-  //   return jsonDecode(response.body);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<PokemonList>(context, listen: false).fetchPokemons();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 future: Provider.of<PokemonList>(
                   context,
                   listen: false,
-                ).getPokemons(),
+                ).fetchPokemons(),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
@@ -86,21 +96,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  // Widget _createGifTable(BuildContext context, AsyncSnapshot snapshot) {
-  //   return GridView.builder(
-  //     padding: EdgeInsets.all(10),
-  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //       crossAxisCount: 2,
-  //       crossAxisSpacing: 10,
-  //       mainAxisSpacing: 10,
-  //     ),
-  //     itemCount: snapshot.data["pokemon"].length,
-  //     itemBuilder: ((context, index) {
-  //       return GestureDetector(
-  //         child: Image.network(snapshot.data["pokemon"][index]["img"]),
-  //       );
-  //     }),
-  //   );
-  // }
 }
