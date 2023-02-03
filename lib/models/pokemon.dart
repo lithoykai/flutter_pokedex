@@ -22,43 +22,43 @@ class Pokemon {
   Color? get typeBackgroundColor {
     switch (types.first) {
       case 'Normal':
-        return Colors.brown[400];
+        return Color.fromARGB(70, 141, 110, 99);
       case 'Fire':
-        return Color.fromARGB(255, 247, 191, 187);
+        return Color.fromARGB(139, 247, 191, 187);
       case 'Water':
-        return Colors.blue;
+        return Color.fromARGB(70, 33, 149, 243);
       case 'Grass':
-        return Colors.green;
+        return Color.fromARGB(70, 76, 175, 79);
       case 'Electric':
-        return Colors.amber;
+        return Color.fromARGB(70, 255, 193, 7);
       case 'Ice':
-        return Colors.cyanAccent[400];
+        return Color.fromARGB(70, 0, 229, 255);
       case 'Fighting':
-        return Colors.orange;
+        return Color.fromARGB(70, 255, 153, 0);
       case 'Poison':
-        return Colors.purple;
+        return Color.fromARGB(70, 155, 39, 176);
       case 'Ground':
-        return Colors.orange[300];
+        return Color.fromARGB(70, 255, 184, 77);
       case 'Flying':
-        return Colors.indigo[200];
+        return Color.fromARGB(70, 159, 168, 218);
       case 'Psychic':
-        return Colors.pink;
+        return Color.fromARGB(70, 233, 30, 98);
       case 'Bug':
-        return Colors.lightGreen[500];
+        return Color.fromARGB(70, 139, 195, 74);
       case 'Rock':
-        return Colors.grey;
+        return Color.fromARGB(70, 158, 158, 158);
       case 'Ghost':
-        return Colors.indigo[400];
+        return Color.fromARGB(70, 92, 107, 192);
       case 'Dark':
-        return Colors.brown;
+        return Color.fromARGB(70, 121, 85, 72);
       case 'Dragon':
-        return Colors.indigo[800];
+        return Color.fromARGB(70, 40, 52, 147);
       case 'Steel':
-        return Colors.blueGrey;
+        return Color.fromARGB(70, 96, 125, 139);
       case 'Fairy':
-        return Colors.pinkAccent[100];
+        return Color.fromARGB(70, 255, 128, 170);
       default:
-        return Colors.grey;
+        return Color.fromARGB(70, 158, 158, 158);
     }
   }
 

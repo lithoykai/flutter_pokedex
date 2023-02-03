@@ -1,13 +1,48 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/const/constants.dart';
 import 'package:flutter_pokedex/models/pokemon_list.dart';
 
+// ignore: must_be_immutable
 class PokeGrid extends StatelessWidget {
   PokemonList pokemon;
   PokeGrid({
     Key? key,
     required this.pokemon,
   }) : super(key: key);
+
+  Widget setTipos(List<String> types) {
+    List<Widget> lista = [];
+    types.forEach((nome) {
+      lista.add(
+        Row(
+          children: [
+            Container(
+              color: Constants.getColorType(types: types[0]),
+              width: 50,
+              height: 25,
+              alignment: Alignment.center,
+              child: Text(
+                nome.trim(),
+                style: const TextStyle(
+                  fontFamily: "Pokemon_Classic",
+                  fontSize: 6,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 5,
+            )
+          ],
+        ),
+      );
+    });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: lista,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +60,14 @@ class PokeGrid extends StatelessWidget {
           child: Card(
             elevation: 1,
             child: Container(
-              // color: pokemon.pokemons[i].typeBackgroundColor,
+              color: pokemon.pokemons[i].typeBackgroundColor,
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(pokemon.pokemons[i].img),
+                  CachedNetworkImage(imageUrl: pokemon.pokemons[i].img),
+                  // Image.network(pokemon.pokemons[i].img),
                   Text(
                     pokemon.pokemons[i].name,
                     style: const TextStyle(
@@ -40,21 +76,18 @@ class PokeGrid extends StatelessWidget {
                     ),
                   ),
                   Card(
-                    child: Container(
-                      color: Constants.getColorType(
-                          types: pokemon.pokemons[i].types),
-                      width: 50,
-                      height: 20,
-                      alignment: Alignment.center,
-                      child: Text(
-                        pokemon.pokemons[i].types[0],
-                        style: const TextStyle(
-                          fontFamily: "Pokemon_Classic",
-                          fontSize: 6,
-                          color: Colors.white,
-                        ),
-                      ),
+                    elevation: 0,
+                    child: setTipos(
+                      pokemon.pokemons[i].types,
                     ),
+                    // child: Text(
+                    //   pokemon.pokemons[i].types[0],
+                    //   style: const TextStyle(
+                    //     fontFamily: "Pokemon_Classic",
+                    //     fontSize: 6,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
                   ),
                 ],
               ),

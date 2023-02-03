@@ -26,10 +26,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     Provider.of<PokemonList>(context, listen: false).fetchPokemons();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,9 +62,11 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             TextField(
-              decoration: InputDecoration(
+              controller: _controller,
+              decoration: const InputDecoration(
                   label: Text('Procure seu pokémon.'),
                   border: OutlineInputBorder()),
+              onChanged: (value) => setState(() {}),
             ),
             Expanded(
               child: FutureBuilder(

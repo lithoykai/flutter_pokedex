@@ -26,6 +26,12 @@ class PokemonList with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Pokemon> filtered({String name = ''}) {
+    return _pokemons
+        .where((pokemon) => pokemon.name.toLowerCase().contains(name))
+        .toList();
+  }
+
   int get itemsCount {
     return _pokemons.length;
   }
