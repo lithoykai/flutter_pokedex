@@ -76,18 +76,11 @@ class PokeGrid extends StatelessWidget {
                     ),
                   ),
                   Card(
+                    color: Colors.transparent,
                     elevation: 0,
                     child: setTipos(
                       pokemon.pokemons[i].types,
                     ),
-                    // child: Text(
-                    //   pokemon.pokemons[i].types[0],
-                    //   style: const TextStyle(
-                    //     fontFamily: "Pokemon_Classic",
-                    //     fontSize: 6,
-                    //     color: Colors.white,
-                    //   ),
-                    // ),
                   ),
                 ],
               ),

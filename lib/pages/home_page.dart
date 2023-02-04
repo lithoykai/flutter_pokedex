@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../components/pokegrid.dart';
 import '../models/pokemon_list.dart';
-
-class Pokemon {
-  final int id;
-  final String name;
-  final List<String> types;
-
-  Pokemon({required this.id, required this.name, required this.types});
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(
-      id: json['id'],
-      name: json['name'],
-      types: List<String>.from(json['type']),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,18 +9,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _controller = TextEditingController();
-
   @override
   void initState() {
     super.initState();
     Provider.of<PokemonList>(context, listen: false).fetchPokemons();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -62,7 +37,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             TextField(
-              controller: _controller,
               decoration: const InputDecoration(
                   label: Text('Procure seu pokémon.'),
                   border: OutlineInputBorder()),
@@ -96,7 +70,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       }
-                    // return _createGifTable(context, snapshot);
                   }
                 },
               ),

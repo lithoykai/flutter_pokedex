@@ -20,16 +20,22 @@ class PokemonList with ChangeNotifier {
           pokemonsJson.map((p) => Pokemon.fromJson(p)).toList();
       _pokemons = pokemonsList;
     } else {
-      throw Exception('Failed to load pokemons');
+      throw Exception('Falha em carrega a lista de Pokemons.');
     }
 
     notifyListeners();
   }
 
-  List<Pokemon> filtered({String name = ''}) {
-    return _pokemons
-        .where((pokemon) => pokemon.name.toLowerCase().contains(name))
-        .toList();
+  void filtered(String value) {
+    List<Pokemon> _listTemp = [];
+    if (value.isNotEmpty) {
+      _listTemp = _pokemons
+          .where((pokemon) =>
+              pokemon.name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+    _pokemons = _listTemp;
+    notifyListeners();
   }
 
   int get itemsCount {
