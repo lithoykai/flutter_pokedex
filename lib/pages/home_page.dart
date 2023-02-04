@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../components/pokegrid.dart';
+import '../models/pokemon.dart';
 import '../models/pokemon_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _findPokemon = '';
   @override
   void initState() {
     super.initState();
@@ -40,7 +42,9 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                   label: Text('Procure seu pokémon.'),
                   border: OutlineInputBorder()),
-              onChanged: (value) => setState(() {}),
+              onChanged: (value) => setState(() {
+                _findPokemon = value;
+              }),
             ),
             Expanded(
               child: FutureBuilder(
@@ -64,10 +68,14 @@ class _HomePageState extends State<HomePage> {
                           child: Text('Ocorreu um erro!'),
                         );
                       } else {
-                        return Consumer<PokemonList>(
-                          builder: (ctx, pokemon, child) => PokeGrid(
-                            pokemon: pokemon,
-                          ),
+                        final List<Pokemon> _pokemons =
+                            Provider.of<PokemonList>(context).pokemons;
+                        return PokeGrid(
+                          pokemon: _pokemons
+                              .where((pokemon) => pokemon.name
+                                  .toLowerCase()
+                                  .contains(_findPokemon.toLowerCase()))
+                              .toList(),
                         );
                       }
                   }
