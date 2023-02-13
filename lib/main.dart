@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokedex/models/pokemon_list.dart';
+import 'package:flutter_pokedex/pages/poke_details.dart';
 import 'package:flutter_pokedex/utils/app_routers.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_pokedex/pages/home_page.dart';
@@ -17,9 +18,15 @@ class PokedexApp extends StatelessWidget {
           create: (_) => PokemonList(),
         ),
       ],
-      child: MaterialApp(color: Colors.white, title: 'Pokedex', routes: {
-        AppRouters.HOME_PAGE: (ctx) => HomePage(),
-      }),
+      child: MaterialApp(
+        color: Colors.white,
+        title: 'Pokedex',
+        routes: {
+          AppRouters.HOME_PAGE: (ctx) => HomePage(),
+          AppRouters.POKE_DETAILS: (ctx) => PokeDetails(),
+        },
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

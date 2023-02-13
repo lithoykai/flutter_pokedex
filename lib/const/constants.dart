@@ -6,8 +6,8 @@ class Constants {
   static const poke_api_url =
       'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json';
 
-  static Color? getColorType({required String types}) {
-    switch (types) {
+  static Color? getColorType(String type) {
+    switch (type) {
       case 'Normal':
         return Colors.brown[400];
       case 'Fire':

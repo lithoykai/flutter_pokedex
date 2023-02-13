@@ -1,57 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_pokedex/const/constants.dart';
 import 'package:flutter_pokedex/models/pokemon.dart';
+import 'package:flutter_pokedex/utils/app_routers.dart';
 import 'package:provider/provider.dart';
 
-import '../const/constants.dart';
-import '../models/pokemon_list.dart';
+import '../widgets/poke_widget.dart';
 
 class PokeGridItem extends StatelessWidget {
   const PokeGridItem({super.key});
 
-  Widget setTipos(List<String> types) {
-    List<Widget> lista = [];
-    types.forEach((nome) {
-      lista.add(
-        Row(
-          children: [
-            Container(
-              color: Constants.getColorType(types: types[0]),
-              width: 50,
-              height: 25,
-              alignment: Alignment.center,
-              child: Text(
-                nome.trim(),
-                style: const TextStyle(
-                  fontFamily: "Pokemon_Classic",
-                  fontSize: 6,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            )
-          ],
-        ),
-      );
-    });
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: lista,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final pokemon = Provider.of<Pokemon>(context);
+
     return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed(AppRouters.POKE_DETAILS, arguments: pokemon);
+      },
       child: Card(
         elevation: 1,
         child: Container(
-          color: pokemon.typeBackgroundColor,
+          color: pokemon.types[0].typeBackgroundColor,
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +43,10 @@ class PokeGridItem extends StatelessWidget {
                       opacity: const AlwaysStoppedAnimation(0.3),
                     ),
                   ),
-                  CachedNetworkImage(imageUrl: pokemon.img),
+                  CachedNetworkImage(
+                    imageUrl: pokemon.img,
+                    height: MediaQuery.of(context).size.height * 0.13,
+                  ),
                 ],
               ),
               Text(
@@ -85,9 +59,7 @@ class PokeGridItem extends StatelessWidget {
               Card(
                 color: Colors.transparent,
                 elevation: 0,
-                child: setTipos(
-                  pokemon.types,
-                ),
+                child: PokeWidget.setTypes(pokemon.types),
               ),
             ],
           ),

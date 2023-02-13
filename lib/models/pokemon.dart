@@ -6,8 +6,8 @@ class Pokemon with ChangeNotifier {
   final String img;
   final List<String> weaknesses;
   final List<Evolution>? nextEvolution;
-  final List<Evolution>? prevEvolution;
-  final List<String> types;
+  late final List<Evolution>? prevEvolution;
+  final List<PokemonType> types;
 
   Pokemon({
     required this.id,
@@ -19,8 +19,39 @@ class Pokemon with ChangeNotifier {
     required this.types,
   });
 
+  factory Pokemon.fromJson(Map<String, dynamic> json) {
+    return Pokemon(
+      id: json['id'],
+      name: json['name'],
+      img:
+          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${json['id']}.png",
+      types: (json['type'] as List<dynamic>)
+          .map((type) => PokemonType(
+                type: type,
+              ))
+          .toList(),
+      weaknesses: List<String>.from(json['weaknesses']),
+      nextEvolution: json['next_evolution'] != null
+          ? (json['next_evolution'] as List)
+              .map((e) => Evolution.fromJson(e))
+              .toList()
+          : null,
+      prevEvolution: json['prev_evolution'] != null
+          ? (json['prev_evolution'] as List)
+              .map((e) => Evolution.fromJson(e))
+              .toList()
+          : null,
+    );
+  }
+}
+
+class PokemonType {
+  final String type;
+
+  PokemonType({required this.type});
+
   Color? get typeBackgroundColor {
-    switch (types.first) {
+    switch (type) {
       case 'Normal':
         return Color.fromARGB(70, 141, 110, 99);
       case 'Fire':
@@ -61,41 +92,21 @@ class Pokemon with ChangeNotifier {
         return Color.fromARGB(70, 158, 158, 158);
     }
   }
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) {
-    return Pokemon(
-      id: json['id'],
-      name: json['name'],
-      img: json['img'],
-      types: List<String>.from(json['type']),
-      weaknesses: List<String>.from(json['weaknesses']),
-      nextEvolution: json['next_evolution'] != null
-          ? (json['next_evolution'] as List)
-              .map((e) => Evolution.fromJson(e))
-              .toList()
-          : [],
-      prevEvolution: json['prev_evolution'] != null
-          ? (json['prev_evolution'] as List)
-              .map((e) => Evolution.fromJson(e))
-              .toList()
-          : [],
-    );
-  }
 }
 
 class Evolution {
+  final String? num;
   final String? name;
-  final String? type;
 
   Evolution({
+    this.num,
     this.name,
-    this.type,
   });
 
   factory Evolution.fromJson(Map<String, dynamic> json) {
     return Evolution(
+      num: json['num'],
       name: json['name'],
-      type: json['type'],
     );
   }
 }
