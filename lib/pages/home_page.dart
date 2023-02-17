@@ -5,6 +5,8 @@ import '../models/pokemon.dart';
 import '../models/pokemon_list.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -23,13 +25,12 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Container(
-          alignment: Alignment.center,
-          child: Image.network(
-            'https://user-images.githubusercontent.com/29473781/180619084-a56960ab-7efa-4e34-9d33-4e3e581d62ff.png',
-            fit: BoxFit.contain,
-            width: 150,
-          ),
-        ),
+            alignment: Alignment.center,
+            child: Image.asset(
+              'assets/img/logo.png',
+              fit: BoxFit.contain,
+              width: 150,
+            )),
         elevation: 0,
         centerTitle: true,
       ),

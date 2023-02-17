@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/pokemon.dart';
-
 class Constants {
   static const poke_api_url =
       'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json';

@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 class Pokemon with ChangeNotifier {
   final int id;
+  final String num;
   final String name;
   final String img;
   final List<String> weaknesses;
   final List<Evolution>? nextEvolution;
-  late final List<Evolution>? prevEvolution;
+  final List<Evolution>? prevEvolution;
   final List<PokemonType> types;
 
   Pokemon({
     required this.id,
+    required this.num,
     required this.name,
     required this.img,
     required this.weaknesses,
@@ -22,6 +24,7 @@ class Pokemon with ChangeNotifier {
   factory Pokemon.fromJson(Map<String, dynamic> json) {
     return Pokemon(
       id: json['id'],
+      num: json['num'],
       name: json['name'],
       img:
           "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${json['id']}.png",

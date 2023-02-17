@@ -16,8 +16,8 @@ class PokeDetails extends StatelessWidget {
         backgroundColor: Colors.grey.shade300,
         appBar: AppBar(
           title: Container(
-            child: Image.network(
-              'https://user-images.githubusercontent.com/29473781/180619084-a56960ab-7efa-4e34-9d33-4e3e581d62ff.png',
+            child: Image.asset(
+              'assets/img/logo.png',
               fit: BoxFit.contain,
               width: 90,
             ),
@@ -25,7 +25,6 @@ class PokeDetails extends StatelessWidget {
           elevation: 0,
           backgroundColor: pokemon.types[0].typeBackgroundColor,
           toolbarHeight: 40,
-          // title: Text(pokemon.name),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
@@ -53,6 +52,14 @@ class PokeDetails extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      '#${pokemon.num}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Pokemon_Classic",
+                        fontSize: 12,
+                      ),
+                    ),
                     Text(
                       pokemon.name,
                       style: TextStyle(
@@ -87,7 +94,7 @@ class PokeDetails extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: PokeWidget.setWeaknesses(pokemon.weaknesses),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     const Text(
@@ -97,6 +104,9 @@ class PokeDetails extends StatelessWidget {
                         fontSize: 12,
                         fontFamily: "Pokemon_Classic",
                       ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Column(
                       children: [
