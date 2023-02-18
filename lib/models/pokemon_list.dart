@@ -9,11 +9,12 @@ class PokemonList with ChangeNotifier {
   List<Pokemon> _pokemons = [];
   List<Pokemon> get pokemons => [..._pokemons];
 
+  set baseUrl(String baseUrl) {}
+
   Future<void> fetchPokemons() async {
     final response = await http.get(Uri.parse(Constants.poke_api_url));
 
     if (response.statusCode == 200) {
-      // Decode the JSON list into a List<Pokemon> object.
       Map<String, dynamic> jsonMap = jsonDecode(response.body);
       List<dynamic> pokemonsJson = jsonMap['pokemon'];
       List<Pokemon> pokemonsList =
@@ -23,18 +24,6 @@ class PokemonList with ChangeNotifier {
       throw Exception('Falha em carrega a lista de Pokemons.');
     }
 
-    notifyListeners();
-  }
-
-  void filtered(String value) {
-    List<Pokemon> _listTemp = [];
-    if (value.isNotEmpty) {
-      _listTemp = _pokemons
-          .where((pokemon) =>
-              pokemon.name.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    }
-    _pokemons = _listTemp;
     notifyListeners();
   }
 
