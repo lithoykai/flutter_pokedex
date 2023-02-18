@@ -9,8 +9,6 @@ class PokemonList with ChangeNotifier {
   List<Pokemon> _pokemons = [];
   List<Pokemon> get pokemons => [..._pokemons];
 
-  set baseUrl(String baseUrl) {}
-
   Future<void> fetchPokemons() async {
     final response = await http.get(Uri.parse(Constants.poke_api_url));
 
